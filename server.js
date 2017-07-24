@@ -28,10 +28,19 @@ app.use(express.static("public"));
 
 // Database configuration with mongoose
 //mongodb://heroku_5jvlh556:6ac4b4m99amhmh62k7lfqv03up@ds139781.mlab.com:39781/heroku_5jvlh556
-mongoose.connect("mongodb://heroku_5jvlh556:6ac4b4m99amhmh62k7lfqv03up@ds139781.mlab.com:39781/heroku_5jvlh556");
-var db = mongoose.connection;
+var databaseUri = "mongodb://localhost/scrape";
+// 
+
+
+if (process.env.MONGODB_URI){
+  mongoose.connect(process.env.MONGODB_URI);
+} else{
+  mongoose.connect(databaseUri)
+}
 
 // Show any mongoose errors
+
+var db = mongoose.connection;
 db.on("error", function(error) {
   console.log("Mongoose Error: ", error);
 });
